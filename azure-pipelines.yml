@@ -47,6 +47,8 @@ stages:
               tar -zxvf roadrunner-deps-gcc7.5-x64-release.tar.gz
               ls
           - script: |
+              echo "current driectory is: "
+              pwd
               echo "doing ls"
               ls -lh
               mkdir build
