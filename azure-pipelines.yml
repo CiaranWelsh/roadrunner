@@ -66,7 +66,6 @@ stages:
             inputs:
               cmakeArgs: --build . --target run-ctest -j 12
 
-
       - job: BuildRoadrunnerWindows
         displayName: Windows
         continueOnError: "false"
@@ -80,21 +79,21 @@ stages:
               SelfHost: false
               CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-release"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-release.zip
-              llvm_zip: $(Agent.HomeDirectory)/llvm-6.x-msvc2019-x64-release.zip
-              llvm_install: $(Agent.HomeDirectory)/llvm-6.x-msvc2019-x64-release
+              llvm_zip: llvm-6.x-msvc2019-x64-release.zip
+              llvm_install: llvm-6.x-msvc2019-x64-release
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner_deps-msvc2019-x64-release.zip
-              rr_deps_zip: $(Agent.HomeDirectory)/roadrunner_deps-msvc2019-x64-release.zip
-              rr_deps_install: $(Agent.HomeDirectory)/roadrunner_deps-msvc2019-x64-release
+              rr_deps_zip: roadrunner_deps-msvc2019-x64-release.zip
+              rr_deps_install: roadrunner_deps-msvc2019-x64-release
             64-bit Windows Debug:
               BuildType: Debug
               SelfHost: false
               CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-debug.zip
-              llvm_zip: $(Agent.HomeDirectory)/llvm-6.x-msvc2019-x64-debug.zip
-              llvm_install: $(Agent.HomeDirectory)/llvm-6.x-msvc2019-x64-debug
+              llvm_zip: llvm-6.x-msvc2019-x64-debug.zip
+              llvm_install: llvm-6.x-msvc2019-x64-debug
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner_deps-msvc2019-x64-debug.zip
-              rr_deps_zip: $(Agent.HomeDirectory)/roadrunner_deps-msvc2019-x64-debug.zip
-              rr_deps_install: $(Agent.HomeDirectory)/roadrunner_deps-msvc2019-x64-debug
+              rr_deps_zip: roadrunner_deps-msvc2019-x64-debug.zip
+              rr_deps_install: roadrunner_deps-msvc2019-x64-debug
 
         steps:
           - powershell: |
@@ -128,11 +127,10 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
-          - script: |
-              echo "Doing ls from $(pwd)"
-              ls -lh
-              ctest build
-            displayName: Run CTest
+          - task: CMake@1
+            displayName: BuildTestTarget
+            inputs:
+              cmakeArgs: --build . --target run-ctest -j 12
 
 
       - job: BuildRoadrunnerMac
@@ -191,8 +189,7 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
-          - script: |
-              echo "Doing ls from $(pwd)"
-              ls -lh
-              ctest build
-            displayName: Run CTest
+          - task: CMake@1
+            displayName: BuildTestTarget
+            inputs:
+              cmakeArgs: --build . --target run-ctest -j 12
