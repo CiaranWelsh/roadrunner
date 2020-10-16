@@ -14,33 +14,53 @@ pr:
   - azure-tests
 
 stages:
-  - stage: GetLLVM
+  - stage: Build
     jobs:
-      - job: GetLLVMJob
+      - job: BuildJob
+        displayName: Linux
+        pool:
+          vmImage: "ubuntu-18.04"
         continueOnError: "false"
+
+        strategy:
+          matrix:
+            64-bit GCC 7.5 Release:
+              CC: gcc-7.5
+              CXX: g++-7.5
+              BuildType: Release
+              SelfHost: false
+              CMakeArgs: ""
+            64-bit GCC 7.5 Debug:
+              CC: gcc-7.5
+              CXX: g++-7.5
+              BuildType: Debug
+              SelfHost: false
+              CMakeArgs: ""
+
         steps:
           - script: |
               wget https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5.0-x64-release.tar.gz
               tar zxvf llvm-6.x-gcc7.5.0-x64-release.tar.gz
-
-  - stage: GetDeps
-    dependsOn: [ ]
-    jobs:
-      - job: GetDepsJob
-        continueOnError: "false"
-        steps:
           - script: |
               wget https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-release.tar.gz
               tar -zxvf roadrunner-deps-gcc7.5-x64-release.tar.gz
+          - script: |
+              mkdir build
+              cd build
+              cmake -DCMAKE_INSTALL_PREFIX="../install-azure" -DRR_DEPENDENCIES_INSTALL_PREFIX="$(pwd)/roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="$(pwd)/llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
+              cmake --build . --target install --config $(BuildType)
 
 
-  - stage: TestCMakeAvailability
-    dependsOn: [ ]
-    jobs:
-      - job: TestCMakeAvailabilityJob
-        continueOnError: "false"
-        steps:
-          - script: cmake --version
+
+#
+#
+#  - stage: TestCMakeAvailability
+#    dependsOn: [ ]
+#    jobs:
+#      - job: TestCMakeAvailabilityJob
+#        continueOnError: "false"
+#        steps:
+#          - script: cmake --version
 
 
 
