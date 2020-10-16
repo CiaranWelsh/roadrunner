@@ -21,8 +21,8 @@ stages:
         continueOnError: "false"
         pool:
           vmImage: "ubuntu-18.04"
-          demands:
-            - cmake
+#          demands:
+#            - cmake
 
         strategy:
           matrix:
