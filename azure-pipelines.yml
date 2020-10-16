@@ -61,8 +61,15 @@ stages:
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
           - script: |
-              ctest ./build -j 8
+              ctest $(System.DefaultWorkingDirectory)/build -j 8
             displayName: Run CTest
+          # Publish pipeline artifacts
+          # Publish (upload) a file or directory as a named artifact for the current run
+#          - task: PublishPipelineArtifact@1
+#            inputs:
+#              targetPath: '$($(System.DefaultWorkingDirectory)'
+#              artifactName: "PublishLinux"
+#          - powershell: Get-ChildItem -Path '.' -recurse
 
       - job: BuildRoadrunnerWindows
         displayName: Windows
