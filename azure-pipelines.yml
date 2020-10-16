@@ -14,9 +14,9 @@ pr:
   - azure-tests
 
 stages:
-  - stage: Build
+  - stage: BuildCoreRoadrunner
     jobs:
-      - job: BuildJob
+      - job: BuildCoreRoadrunnerJob
         displayName: Linux
         pool:
           vmImage: "ubuntu-18.04"
@@ -24,17 +24,15 @@ stages:
 
         strategy:
           matrix:
-            64-bit GCC 7.5 Release:
-#              CC: gcc-7.5
-#              CXX: g++-7.5
+            64-bit Linux Release:
               BuildType: Release
               SelfHost: false
               CMakeArgs: ""
-            64-bit GCC 7.5 Debug:
-#              CC: gcc-7.5
-#              CXX: g++-7.5
+              InstallPrefix = "../install-azure-release"
+            64-bit Linux Debug:
               BuildType: Debug
               SelfHost: false
+              InstallPrefix = "../install-azure-debug"
               CMakeArgs: ""
 
         steps:
@@ -61,8 +59,15 @@ stages:
               ls -lh
               mkdir build
               cd build
-              cmake -DCMAKE_INSTALL_PREFIX="../install-azure" -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
+              cmake -DCMAKE_INSTALL_PREFIX="$(InstallPrefix)" -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
               cmake --build . --target install --config $(BuildType) -j 12
+
+
+  - stage: TestCoreRoadrunner
+    jobs:
+      - job: TestCoreRoadrunnerJob
+
+
 
 
 
