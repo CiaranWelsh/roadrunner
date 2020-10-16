@@ -9,7 +9,7 @@ trigger:
   - azure-tests
 
 pr:
-  - master
+  - masterin
   - develop
   - azure-tests
 
@@ -126,6 +126,8 @@ stages:
               ctest build
 
       - job: BuildRoadrunnerMac
+        displayName: MacOS
+        continueOnError: "false"
         pool:
           vmImage: 'macOS-10.15'
 
