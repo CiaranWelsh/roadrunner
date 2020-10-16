@@ -14,8 +14,6 @@ pr:
   - azure-tests
 
 stages:
-  - pool:
-      vmImage: "ubuntu-18.04"
   - stage: GetLLVM
     jobs:
       - job: GetLLVMJob
