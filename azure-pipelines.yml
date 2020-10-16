@@ -31,7 +31,6 @@ stages:
             64-bit Linux Debug:
               BuildType: Debug
               SelfHost: false
-              InstallPrefix = "../install-azure-debug"
               CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
 
         steps:
