@@ -102,6 +102,8 @@ stages:
               Expand-Archive  $(llvm_zip) -Destination .
               echo "pwd: $pwd"
               dir
+              cd $(llvm_install)
+              dir
             displayName: "Get LLVM"
             errorActionPreference: 'stop'
           - powershell: |
