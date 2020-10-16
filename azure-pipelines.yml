@@ -54,20 +54,20 @@ stages:
               ls
           - task: CMake@1
               inputs:
-                - cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
-#          - task: CMake@1
-#              inputs:
-#                - cmakeArgs: --build . --target install --config $(BuildType) -j 12
+                cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
+          - task: CMake@1
+              inputs:
+                cmakeArgs: --build . --target install --config $(BuildType) -j 12
 
-#          - script: |
-#              echo "current driectory is: "
-#              pwd
-#              echo "doing ls"
-#              ls -lh
-#              mkdir build
-#              cd build
-#              cmake $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
-#              cmake --build . --target install --config $(BuildType) -j 12
+  #          - script: |
+  #              echo "current driectory is: "
+  #              pwd
+  #              echo "doing ls"
+  #              ls -lh
+  #              mkdir build
+  #              cd build
+  #              cmake $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
+  #              cmake --build . --target install --config $(BuildType) -j 12
 
 
   - stage: TestCoreRoadrunner
@@ -78,15 +78,15 @@ stages:
 
 
 
-#
-#
-#  - stage: TestCMakeAvailability
-#    dependsOn: [ ]
-#    jobs:
-#      - job: TestCMakeAvailabilityJob
-#        continueOnError: "false"
-#        steps:
-#          - script: cmake --version
+          #
+          #
+          #  - stage: TestCMakeAvailability
+          #    dependsOn: [ ]
+          #    jobs:
+          #      - job: TestCMakeAvailabilityJob
+          #        continueOnError: "false"
+          #        steps:
+          #          - script: cmake --version
 
 
 
@@ -117,5 +117,5 @@ stages:
           #    pool:
           #      vmImage: 'ubuntu-18.04'
           #    steps:
-          #      - script: bash $(pwd)/ci/build-linux.sh
+        #      - script: bash $(pwd)/ci/build-linux.sh
 
