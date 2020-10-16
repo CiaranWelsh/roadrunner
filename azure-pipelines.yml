@@ -99,7 +99,7 @@ stages:
           - powershell: |
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(llvm_link) -OutFile $(llvm_zip)
-              Expand-Archive -LiteralPath $(llvm_zip) -DestinationPath $(llvm_install)
+              Expand-Archive -Path $(llvm_zip) -DestinationPath $(llvm_install)
               echo "pwd: $pwd"
               dir
             displayName: "Get LLVM"
@@ -112,7 +112,7 @@ stages:
               echo "doing ls"
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(rr_deps_link) -OutFile $(rr_deps_zip)
-              Expand-Archive -LiteralPath $(rr_deps_zip) -DestinationPath $(rr_deps_install)
+              Expand-Archive -Path $(rr_deps_zip) -DestinationPath $(rr_deps_install)
             displayName: "Get Dependencies"
           - task: CMake@1
             displayName: ConfigureCommand
