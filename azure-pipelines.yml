@@ -32,7 +32,6 @@ stages:
               BuildType: Debug
               SelfHost: false
               CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
-
         steps:
           - script: |
               echo "current driectory is: "
@@ -65,7 +64,7 @@ stages:
           - script: |
               ls -lh
               ls roadrunner-deps-gcc7.5-x64-release/bin
-              ctest $(System.B) -j 8
+              ctest $(Agent.BuildDirectory) -j 8
             displayName: Run CTest
           # Publish pipeline artifacts
           # Publish (upload) a file or directory as a named artifact for the current run
