@@ -9,7 +9,7 @@ trigger:
   - azure-tests
 
 pr:
-  - masterin
+  - master
   - develop
   - azure-tests
 
@@ -64,7 +64,7 @@ stages:
               echo "Doing ls from $(pwd)"
               ls -lh
               echo "Doing ls build
-              ls -lh ./build
+              ls -lh build
               ctest ./build -j 8
 
       - job: BuildRoadrunnerWindows
