@@ -62,7 +62,7 @@ endforeach ()
 
 add_custom_target(
         run-ctest
-            ctest ${CMAKE_BINARY_DIR}
+            ctest --progress --verbose --extra-verbose ${CMAKE_BINARY_DIR} -j 8
 )
 
 set(ENV testdir "${CMAKE_CURRENT_SOURCE_DIR}")
