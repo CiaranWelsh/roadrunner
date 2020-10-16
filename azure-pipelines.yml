@@ -53,11 +53,13 @@ stages:
               tar -zxvf roadrunner-deps-gcc7.5-x64-release.tar.gz
               ls
           - task: CMake@1
-              inputs:
-                cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
+            displayName: ConfigureCommand
+            inputs:
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
           - task: CMake@1
-              inputs:
-                cmakeArgs: --build . --target install --config $(BuildType) -j 12
+            displayName: BuildCommand
+            inputs:
+              cmakeArgs: --build . --target install --config $(BuildType) -j 12
 
   #          - script: |
   #              echo "current driectory is: "
