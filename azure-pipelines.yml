@@ -99,7 +99,7 @@ stages:
           - powershell: |
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(llvm_link) -OutFile $(llvm_zip)
-              Expand-Archive -Path $(llvm_zip) -DestinationPath $(llvm_install)
+              Expand-Archive  $(llvm_zip)  $(llvm_install)
               echo "pwd: $pwd"
               dir
             displayName: "Get LLVM"
@@ -110,7 +110,7 @@ stages:
           - powershell: |
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(rr_deps_link) -OutFile $(rr_deps_zip)
-              Expand-Archive -Path $(rr_deps_zip) -DestinationPath $(rr_deps_install)
+              Expand-Archive $(rr_deps_zip)  $(rr_deps_install)
               echo "pwd: $pwd"
               dir
             errorActionPreference: 'stop'
