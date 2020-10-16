@@ -61,7 +61,9 @@ stages:
           - script: |
               echo "Doing ls from $(pwd)"
               ls -lh
-              ctest build
+              echo "Doing ls build
+              ls -lh ./build
+              ctest ./build -j 8
 
       - job: BuildRoadrunnerWindows
         displayName: Windows
