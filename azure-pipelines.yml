@@ -92,7 +92,7 @@ stages:
               pwd
               echo "doing ls"
               ls
-              wget '$(llvm_link)' -OutFile '$(llvm_zip)'
+              Invoke-WebRequest -InFile $(llvm_link) -OutFile $(llvm_zip)
               Expand-Archive -LiteralPath '$(llvm_zip)' -DestinationPath '$(llvm_install)'
               ls
           - powershell: |
@@ -100,7 +100,7 @@ stages:
               pwd
               echo "doing ls"
               ls
-              wget '$(rr_deps_link)' -OutFile '$(rr_deps_zip)'
+              Invoke-WebRequest -InFile $(rr_deps_link) -OutFile $(rr_deps_zip)
               Expand-Archive -LiteralPath '$(rr_deps_zip)' -DestinationPath '$(rr_deps_install)'
               ls
           - task: CMake@1
