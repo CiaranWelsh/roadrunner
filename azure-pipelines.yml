@@ -14,15 +14,13 @@ pr:
   - azure-tests
 
 stages:
-  - stage: BuildCoreRoadrunner
+  - stage: BuildRoadrunner
     jobs:
-      - job: BuildCoreRoadrunnerJob
+      - job: BuildRoadrunnerJob
         displayName: Linux
         continueOnError: "false"
         pool:
           vmImage: "ubuntu-18.04"
-        #          demands:
-        #            - cmake
 
         strategy:
           matrix:
@@ -64,6 +62,59 @@ stages:
               echo "Doing ls from $(pwd)"
               ls -lh
               ctest build
+
+      - job: BuildRoadrunnerJob
+        displayName: Windows
+        continueOnError: "false"
+        pool:
+          vmImage: "windows-2019"
+
+        strategy:
+          matrix:
+            64-bit Windows Release:
+              BuildType: Release
+              SelfHost: false
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-release"
+              llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-release.zip
+              llvm_zip: llvm-6.x-msvc2019-x64-release.zip
+              llvm_install: llvm-6.x-msvc2019-x64-release
+              rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner_deps-msvc2019-x64-release.zip
+              rr_deps_zip: roadrunner_deps-msvc2019-x64-release.zip
+              rr_deps_install: roadrunner_deps-msvc2019-x64-release
+#            64-bit Windows Debug:
+#              BuildType: Debug
+#              SelfHost: false
+#              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
+
+        steps:
+          - powershell: |
+              echo "current driectory is: "
+              pwd
+              echo "doing ls"
+              ls -lh
+              wget '$(llvm_link)' -OutFile '$(llvm_zip)'
+              Expand-Archive -LiteralPath '$(llvm_zip)' -DestinationPath '$(llvm_install)'
+              ls
+#          - script: |
+#              echo "current driectory is: "
+#              pwd
+#              echo "doing ls"
+#              ls -lh
+#              wget https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-release.tar.gz
+#              tar -zxvf roadrunner-deps-gcc7.5-x64-release.tar.gz
+#              ls
+#          - task: CMake@1
+#            displayName: ConfigureCommand
+#            inputs:
+#              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+#          - task: CMake@1
+#            displayName: BuildCommand
+#            inputs:
+#              cmakeArgs: --build . --target install --config $(BuildType) -j 12
+#          - script: |
+#              echo "Doing ls from $(pwd)"
+#              ls -lh
+#              ctest build
 
 
           #          - script: |
