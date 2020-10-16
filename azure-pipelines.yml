@@ -107,6 +107,9 @@ stages:
               ls
             displayName: "Get LLVM"
           - powershell: |
+              dir
+            displayName: Do A Dir
+          - powershell: |
               echo "current driectory is: "
               pwd
               echo "doing ls"
@@ -114,8 +117,7 @@ stages:
               Invoke-WebRequest $(rr_deps_link) -OutFile $(rr_deps_zip)
               Expand-Archive -LiteralPath '$(rr_deps_zip)' -DestinationPath '$(rr_deps_install)'
 
-          - powershell: |
-              dir
+
             displayName: "Get Dependencies"
           - task: CMake@1
             displayName: ConfigureCommand
