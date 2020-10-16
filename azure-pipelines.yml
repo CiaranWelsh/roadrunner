@@ -65,11 +65,7 @@ stages:
             displayName: Run CTest
           # Publish pipeline artifacts
           # Publish (upload) a file or directory as a named artifact for the current run
-#          - task: PublishPipelineArtifact@1
-#            inputs:
-#              targetPath: '$($(System.DefaultWorkingDirectory)'
-#              artifactName: "PublishLinux"
-#          - powershell: Get-ChildItem -Path '.' -recurse
+
 
       - job: BuildRoadrunnerWindows
         displayName: Windows
@@ -122,7 +118,7 @@ stages:
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
-              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
           - task: CMake@1
             displayName: BuildCommand
             inputs:
