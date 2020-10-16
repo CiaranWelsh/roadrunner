@@ -61,7 +61,9 @@ stages:
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
           - script: |
-              ctest $(System.DefaultWorkingDirectory)/build -j 8
+              ls -lh
+              ls roadrunner-deps-gcc7.5-x64-release/bin
+              ctest $(System.B) -j 8
             displayName: Run CTest
           # Publish pipeline artifacts
           # Publish (upload) a file or directory as a named artifact for the current run
@@ -97,6 +99,11 @@ stages:
               rr_deps_install: $(Agent.HomeDirectory)/roadrunner_deps-msvc2019-x64-debug
 
         steps:
+          - powershell: |
+              echo "Inspecting directory structure"
+              pwd
+              ls
+
           - powershell: |
               echo "current driectory is: "
               pwd
