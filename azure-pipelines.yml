@@ -62,7 +62,7 @@ stages:
               mkdir build
               cd build
               cmake -DCMAKE_INSTALL_PREFIX="../install-azure" -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
-              cmake --build . --target install --config $(BuildType)
+              cmake --build . --target install --config $(BuildType) -j 12
 
 
 
