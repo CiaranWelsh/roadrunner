@@ -99,7 +99,8 @@ stages:
               pwd
               echo "doing ls"
               ls
-              Invoke-WebRequest -Uri $(llvm_link) -OutFile $(llvm_zip)
+              $wc = New-Object net.webclient
+              $wc.Downloadfile($(llvm_link), $(llvm_zip))
               Expand-Archive -LiteralPath '$(llvm_zip)' -DestinationPath '$(llvm_install)'
               ls
             displayName: "Get LLVM"
@@ -108,7 +109,8 @@ stages:
               pwd
               echo "doing ls"
               ls
-              Invoke-WebRequest -Uri $(rr_deps_link) -OutFile $(rr_deps_zip)
+              $wc = New-Object net.webclient
+              $wc.Downloadfile($(rr_deps_link), $(rr_deps_zip))
               Expand-Archive -LiteralPath '$(rr_deps_zip)' -DestinationPath '$(rr_deps_install)'
               ls
             displayName: "Get Dependencies"
