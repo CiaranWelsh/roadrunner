@@ -99,10 +99,11 @@ stages:
           - powershell: |
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(llvm_link) -OutFile $(llvm_zip)
-              Expand-Archive  $(llvm_zip) -Destination .
+              Expa
+              nd-Archive  $(llvm_zip) -Destination .
               echo "pwd: $pwd"
               dir
-              cd $(llvm_install)
+              cd '$(llvm_install)'
               dir
             displayName: "Get LLVM"
             errorActionPreference: 'stop'
