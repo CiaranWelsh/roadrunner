@@ -66,6 +66,7 @@ stages:
               echo "Doing ls build
               ls -lh build
               ctest ./build -j 8
+            displayName: Run CTest
 
       - job: BuildRoadrunnerWindows
         displayName: Windows
@@ -127,6 +128,8 @@ stages:
               echo "Doing ls from $(pwd)"
               ls -lh
               ctest build
+            displayName: Run CTest
+
 
       - job: BuildRoadrunnerMac
         displayName: MacOS
@@ -184,4 +187,8 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
-
+          - script: |
+              echo "Doing ls from $(pwd)"
+              ls -lh
+              ctest build
+            displayName: Run CTest
