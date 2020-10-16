@@ -29,20 +29,11 @@ stages:
             64-bit Linux Release:
               BuildType: Release
               SelfHost: false
-              llvm_link: "https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5.0-x64-release.tar.gz"
-              llvm_tar: "llvm-6.x-gcc7.5.0-x64-release.tar.gz"
-              deps_link: "https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-release.tar.gz"
-              deps_tar: "roadrunner-deps-gcc7.5-x64-release.tar.gz"
-              CMakeArgs: '-DCMAKE_INSTALL_PREFIX="../install-azure-release" -DLLVM_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DRR_DEPENDENCIES_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release"'
-
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-release"
             64-bit Linux Debug:
               BuildType: Debug
               SelfHost: false
-              llvm_link: "https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5.0-x64-debug.tar.gz"
-              llvm_tar: "llvm-6.x-gcc7.5.0-x64-debug.tar.gz"
-              deps_link: "https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-debug.tar.gz"
-              deps_tar: "roadrunner-deps-gcc7.5-x64-debug.tar.gz"
-              CMakeArgs: '-DCMAKE_INSTALL_PREFIX="../install-azure-debug" -DLLVM_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-debug" -DRR_DEPENDENCIES_INSTALL_PREFIX=../llvm-6.x-gcc7.5.0-x64-debug'
+              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
 
         steps:
           - script: |
@@ -50,27 +41,27 @@ stages:
               pwd
               echo "doing ls"
               ls -lh
-              wget $(llvm_link)
-              tar zxvf $(llvm_tar)
+              wget https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5.0-x64-release.tar.gz
+              tar zxvf llvm-6.x-gcc7.5.0-x64-release.tar.gz
               ls
           - script: |
               echo "current driectory is: "
               pwd
               echo "doing ls"
               ls -lh
-              wget $(deps_link)
-              tar -zxvf $(deps_tar)
+              wget https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-release.tar.gz
+              tar -zxvf roadrunner-deps-gcc7.5-x64-release.tar.gz
               ls
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
-              cmakeArgs: $(CMakeArgs) -DCMAKE_BUILD_TYPE=$(BuildType)  ..
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
           - task: CMake@1
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
           - script: |
-              echo "Doing ls from: $(pwd)"
+              echo "Doing ls from $(pwd)"
               ls -lh
               ctest build
 
