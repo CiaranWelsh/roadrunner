@@ -100,6 +100,7 @@ stages:
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(llvm_link) -OutFile $(llvm_zip)
               Expand-Archive  $(llvm_zip) -Destination .
+              rm $(llvm_zip) # since we are limited to 10gb space per job we clean up zips
               echo "pwd: $pwd"
               dir
               cd '$(llvm_install)'
@@ -113,6 +114,7 @@ stages:
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(rr_deps_link) -OutFile $(rr_deps_zip)
               Expand-Archive $(rr_deps_zip)  -Destination .
+              rm $(rr_deps_zip)
               echo "pwd: $pwd"
               dir
             errorActionPreference: 'stop'
