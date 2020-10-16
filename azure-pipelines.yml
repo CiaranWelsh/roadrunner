@@ -99,12 +99,10 @@ stages:
           - powershell: |
               echo "current driectory is: "
               pwd
-              echo "doing ls"
-              ls
-              $wc = New-Object net.webclient
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(llvm_link) -OutFile $(llvm_zip)
-              ls
+              pwd
+              dir
             displayName: "Get LLVM"
           - powershell: |
               dir
