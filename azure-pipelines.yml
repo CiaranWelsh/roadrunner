@@ -33,7 +33,7 @@ stages:
               llvm_tar: "llvm-6.x-gcc7.5.0-x64-release.tar.gz"
               deps_link: "https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-release.tar.gz"
               deps_tar: "roadrunner-deps-gcc7.5-x64-release.tar.gz"
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-release -DLLVM_INSTALL_PREFIX=../roadrunner-deps-gcc7.5-x64-release -DRR_DEPENDENCIES_INSTALL_PREFIX=../llvm-6.x-gcc7.5.0-x64-release"
+              CMakeArgs: '-DCMAKE_INSTALL_PREFIX="../install-azure-release" -DLLVM_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DRR_DEPENDENCIES_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release"'
 
             64-bit Linux Debug:
               BuildType: Debug
@@ -42,7 +42,7 @@ stages:
               llvm_tar: "llvm-6.x-gcc7.5.0-x64-debug.tar.gz"
               deps_link: "https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-debug.tar.gz"
               deps_tar: "roadrunner-deps-gcc7.5-x64-debug.tar.gz"
-              CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug -DLLVM_INSTALL_PREFIX=../roadrunner-deps-gcc7.5-x64-debug -DRR_DEPENDENCIES_INSTALL_PREFIX=../llvm-6.x-gcc7.5.0-x64-debug"
+              CMakeArgs: '-DCMAKE_INSTALL_PREFIX="../install-azure-debug" -DLLVM_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-debug" -DRR_DEPENDENCIES_INSTALL_PREFIX=../llvm-6.x-gcc7.5.0-x64-debug'
 
         steps:
           - script: |
