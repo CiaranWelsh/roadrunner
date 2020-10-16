@@ -77,20 +77,20 @@ stages:
               SelfHost: false
               CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-release"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-release.zip
-              llvm_zip: llvm-6.x-msvc2019-x64-release.zip
-              llvm_install: llvm-6.x-msvc2019-x64-release
+              llvm_zip: $(Agent.BuildDirectory)/llvm-6.x-msvc2019-x64-release.zip
+              llvm_install: $(Agent.BuildDirectory)/llvm-6.x-msvc2019-x64-release
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner_deps-msvc2019-x64-release.zip
-              rr_deps_zip: roadrunner_deps-msvc2019-x64-release.zip
-              rr_deps_install: roadrunner_deps-msvc2019-x64-release
+              rr_deps_zip: $(Agent.BuildDirectory)/roadrunner_deps-msvc2019-x64-release.zip
+              rr_deps_install: $(Agent.BuildDirectory)/roadrunner_deps-msvc2019-x64-release
             64-bit Windows Debug:
               BuildType: Debug
               SelfHost: false
               CMakeArgs: "-DCMAKE_INSTALL_PREFIX=../install-azure-debug"
               llvm_link: https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-msvc2019-x64-debug.zip
-              llvm_zip: llvm-6.x-msvc2019-x64-debug.zip
-              llvm_install: llvm-6.x-msvc2019-x64-debug
+              llvm_zip: $(Agent.BuildDirectory)/llvm-6.x-msvc2019-x64-debug.zip
+              llvm_install: $(Agent.BuildDirectory)/llvm-6.x-msvc2019-x64-debug
               rr_deps_link: https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner_deps-msvc2019-x64-debug.zip
-              rr_deps_zip: roadrunner_deps-msvc2019-x64-debug.zip
+              rr_deps_zip: $(Agent.BuildDirectory)/roadrunner_deps-msvc2019-x64-debug.zip
               rr_deps_install: roadrunner_deps-msvc2019-x64-debug
 
         steps:
@@ -108,11 +108,9 @@ stages:
               echo "current driectory is: "
               pwd
               echo "doing ls"
-              ls
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(rr_deps_link) -OutFile $(rr_deps_zip)
               Expand-Archive -LiteralPath '$(rr_deps_zip)' -DestinationPath '$(rr_deps_install)'
-              ls
             displayName: "Get Dependencies"
           - task: CMake@1
             displayName: ConfigureCommand
