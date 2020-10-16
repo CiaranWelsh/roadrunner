@@ -21,8 +21,8 @@ stages:
         continueOnError: "false"
         pool:
           vmImage: "ubuntu-18.04"
-#          demands:
-#            - cmake
+        #          demands:
+        #            - cmake
 
         strategy:
           matrix:
@@ -60,23 +60,26 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
-          - script: ctest .
+          - script: |
+              echo "Doing ls from: $(pwd)"
+              ls -lh
+              ctest build
 
 
-  #          - script: |
-  #              echo "current driectory is: "
-  #              pwd
-  #              echo "doing ls"
-  #              ls -lh
-  #              mkdir build
-  #              cd build
-  #              cmake $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
-  #              cmake --build . --target install --config $(BuildType) -j 12
+          #          - script: |
+          #              echo "current driectory is: "
+          #              pwd
+          #              echo "doing ls"
+          #              ls -lh
+          #              mkdir build
+          #              cd build
+          #              cmake $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) ..
+          #              cmake --build . --target install --config $(BuildType) -j 12
 
-#
-#  - stage: TestCoreRoadrunner
-#    jobs:
-#      - job: TestCoreRoadrunnerJob
+          #
+          #  - stage: TestCoreRoadrunner
+          #    jobs:
+          #      - job: TestCoreRoadrunnerJob
 
 
 
