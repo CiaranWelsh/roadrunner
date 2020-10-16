@@ -25,14 +25,14 @@ stages:
         strategy:
           matrix:
             64-bit GCC 7.5 Release:
-              CC: gcc-7.5
-              CXX: g++-7.5
+#              CC: gcc-7.5
+#              CXX: g++-7.5
               BuildType: Release
               SelfHost: false
               CMakeArgs: ""
             64-bit GCC 7.5 Debug:
-              CC: gcc-7.5
-              CXX: g++-7.5
+#              CC: gcc-7.5
+#              CXX: g++-7.5
               BuildType: Debug
               SelfHost: false
               CMakeArgs: ""
