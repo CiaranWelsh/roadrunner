@@ -16,7 +16,7 @@ pr:
 stages:
   - stage: BuildRoadrunner
     jobs:
-      - job: BuildRoadrunnerJob
+      - job: BuildRoadrunnerLinux
         displayName: Linux
         continueOnError: "false"
         pool:
@@ -63,7 +63,7 @@ stages:
               ls -lh
               ctest build
 
-      - job: BuildRoadrunnerJob
+      - job: BuildRoadrunnerWindown
         displayName: Windows
         continueOnError: "false"
         pool:
