@@ -100,8 +100,8 @@ stages:
               echo "doing ls"
               ls
               $wc = New-Object net.webclient
-              $wc.Downloadfile($(llvm_link), $(llvm_zip))
-              Expand-Archive -LiteralPath '$(llvm_zip)' -DestinationPath '$(llvm_install)'
+              $ProgressPreference = 'SilentlyContinue'
+              Invoke-WebRequest $(llvm_link) -OutFile $(llvm_zip)
               ls
             displayName: "Get LLVM"
           - powershell: |
@@ -109,8 +109,8 @@ stages:
               pwd
               echo "doing ls"
               ls
-              $wc = New-Object net.webclient
-              $wc.Downloadfile($(rr_deps_link), $(rr_deps_zip))
+              $ProgressPreference = 'SilentlyContinue'
+              Invoke-WebRequest $(rr_deps_link) -OutFile $(rr_deps_zip)
               Expand-Archive -LiteralPath '$(rr_deps_zip)' -DestinationPath '$(rr_deps_install)'
               ls
             displayName: "Get Dependencies"
