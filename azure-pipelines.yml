@@ -42,6 +42,7 @@ stages:
               wget https://github.com/sys-bio/llvm-6.x/releases/download/release%2F6.x/llvm-6.x-gcc7.5.0-x64-release.tar.gz
               tar -zxvf llvm-6.x-gcc7.5.0-x64-release.tar.gz
               ls
+            displayName: "Get LLVM"
           - script: |
               echo "current driectory is: "
               pwd
@@ -50,6 +51,7 @@ stages:
               wget https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-release.tar.gz
               tar -zxvf roadrunner-deps-gcc7.5-x64-release.tar.gz
               ls
+            displayName: "Get Dependencies"
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
@@ -94,7 +96,6 @@ stages:
               rr_deps_zip: roadrunner_deps-msvc2019-x64-debug.zip
               rr_deps_install: roadrunner_deps-msvc2019-x64-debug
 
-
         steps:
           - powershell: |
               echo "current driectory is: "
@@ -104,6 +105,7 @@ stages:
               Invoke-WebRequest -Uri $(llvm_link) -OutFile $(llvm_zip)
               Expand-Archive -LiteralPath '$(llvm_zip)' -DestinationPath '$(llvm_install)'
               ls
+            displayName: "Get LLVM"
           - powershell: |
               echo "current driectory is: "
               pwd
@@ -112,6 +114,7 @@ stages:
               Invoke-WebRequest -Uri $(rr_deps_link) -OutFile $(rr_deps_zip)
               Expand-Archive -LiteralPath '$(rr_deps_zip)' -DestinationPath '$(rr_deps_install)'
               ls
+            displayName: "Get Dependencies"
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
@@ -163,6 +166,7 @@ stages:
               wget $(llvm_link)
               tar -zxvf $(llvm_zip)
               ls
+            displayName: "Get LLVM"
           - script: |
               echo "current driectory is: "
               pwd
@@ -171,6 +175,7 @@ stages:
               wget $(rr_deps_link)
               tar -zxvf $(rr_deps_zip)
               ls
+            displayName: "Get Dependencies"
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
@@ -179,8 +184,4 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
-          - script: |
-              echo "Doing ls from $(pwd)"
-              ls -lh
-              ctest build
 
