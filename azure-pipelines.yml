@@ -61,14 +61,10 @@ stages:
             displayName: BuildCommand
             inputs:
               cmakeArgs: --build . --target install --config $(BuildType) -j 12
-          - script: |
-              ls -lh
-              ls roadrunner-deps-gcc7.5-x64-release/bin
-              ctest $(Agent.BuildDirectory) -j 8
-
-            displayName: Run CTest
-          # Publish pipeline artifacts
-          # Publish (upload) a file or directory as a named artifact for the current run
+          - task: CMake@1
+            displayName: BuildTestTarget
+            inputs:
+              cmakeArgs: --build . --target run-ctest -j 12
 
 
       - job: BuildRoadrunnerWindows
