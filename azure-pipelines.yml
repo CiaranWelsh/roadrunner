@@ -97,11 +97,9 @@ stages:
 
         steps:
           - powershell: |
-              echo "current driectory is: "
-              pwd
               $ProgressPreference = 'SilentlyContinue'
               Invoke-WebRequest $(llvm_link) -OutFile $(llvm_zip)
-              pwd
+              echo "pwd: $pwd"
               dir
             displayName: "Get LLVM"
           - powershell: |
