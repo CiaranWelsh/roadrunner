@@ -95,26 +95,27 @@ stages:
               wget '$(llvm_link)' -OutFile '$(llvm_zip)'
               Expand-Archive -LiteralPath '$(llvm_zip)' -DestinationPath '$(llvm_install)'
               ls
-#          - script: |
-#              echo "current driectory is: "
-#              pwd
-#              echo "doing ls"
-#              ls -lh
-#              wget https://github.com/CiaranWelsh/roadrunner-deps/releases/download/v2.0.1/roadrunner-deps-gcc7.5-x64-release.tar.gz
-#              tar -zxvf roadrunner-deps-gcc7.5-x64-release.tar.gz
-#              ls
-#          - task: CMake@1
-#            displayName: ConfigureCommand
-#            inputs:
-#              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../roadrunner-deps-gcc7.5-x64-release" -DLLVM_INSTALL_PREFIX="../llvm-6.x-gcc7.5.0-x64-release" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
-#          - task: CMake@1
-#            displayName: BuildCommand
-#            inputs:
-#              cmakeArgs: --build . --target install --config $(BuildType) -j 12
-#          - script: |
-#              echo "Doing ls from $(pwd)"
-#              ls -lh
-#              ctest build
+          - powershell: |
+              echo "current driectory is: "
+              pwd
+              echo "doing ls"
+              ls
+              wget '$(rr_deps_link)' -OutFile '$(rr_deps_zip)'
+              Expand-Archive -LiteralPath '$(rr_deps_zip)' -DestinationPath '$(rr_deps_install)'
+              ls
+          - task: CMake@1
+            displayName: ConfigureCommand
+            inputs:
+              cmakeArgs: $(CMakeArgs) -DRR_DEPENDENCIES_INSTALL_PREFIX="../$(rr_deps_install)" -DLLVM_INSTALL_PREFIX="../$(llvm_install)" -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+          - task: CMake@1
+            displayName: BuildCommand
+            inputs:
+              cmakeArgs: --build . --target install --config $(BuildType) -j 12
+          - script: |
+              echo "Doing ls from $(pwd)"
+              ls -lh
+              ctest build
+
       - job: BuildRoadrunnerMac
         pool:
           vmImage: 'macOS-10.15'
