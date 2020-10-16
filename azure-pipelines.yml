@@ -64,7 +64,7 @@ stages:
           - task: CMake@1
             displayName: ConfigureCommand
             inputs:
-              cmakeArgs: $(CMakeArgs) -DCMAKE_BUILD_TYPE=$(BuildType) -DBUILD_TESTS=ON ..
+              cmakeArgs: $(CMakeArgs) -DCMAKE_BUILD_TYPE=$(BuildType)  ..
           - task: CMake@1
             displayName: BuildCommand
             inputs:
