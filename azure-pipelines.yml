@@ -6,14 +6,15 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 trigger:
   - master
   - develop
-  - azure-test
+  - azure-tests
 
 pr:
   - master
   - develop
-  - azure-test
+  - azure-tests
 
 stages:
+  - pool: ubuntu-18.04
   - stage: GetLLVM
     jobs:
       - job: GetLLVMJob
